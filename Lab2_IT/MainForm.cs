@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -55,13 +55,9 @@ namespace Lab2_IT
 			string result;
 
 			if (bits.Length > MAX_BYTE_COUNT * BYTE_LENGTH)
-			{
 				result = GetFirstAndLastBytes(bits);
-			}
 			else
-			{
 				result = utils.BitsToString(bits);
-			}
 
 			return result;
 		}
@@ -109,15 +105,20 @@ namespace Lab2_IT
 
 		private void OutputButton_Click(object sender, EventArgs e)
 		{
-			if (OutputDialog.ShowDialog() == DialogResult.OK)
+			if (ResultTextBox.Text.Length > 0)
 			{
-				byte[] bytes = utils.BitsToBytes(encoder.resultBits);
-
-				using (FileStream fileStream = new FileStream(OutputDialog.FileName, FileMode.Create))
+				if (OutputDialog.ShowDialog() == DialogResult.OK)
 				{
-					fileStream.Write(bytes, 0, bytes.Length);
+					byte[] bytes = utils.BitsToBytes(encoder.resultBits);
+
+					using (FileStream fileStream = new FileStream(OutputDialog.FileName, FileMode.Create))
+					{
+						fileStream.Write(bytes, 0, bytes.Length);
+					}
 				}
 			}
+			else
+				MessageBox.Show("Полученный текст не должен быть пустым.", "Ошибка записи", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
 		private void EncodeButton_Click(object sender, EventArgs e)
@@ -134,7 +135,7 @@ namespace Lab2_IT
 					ResultTextBox.Text = GetLongBitText(encoder.resultBits);
 				}
 				else
-					MessageBox.Show("Исходный файл не должен быть пустым.", "Ошибка файла", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("Исходный файл не должен быть пустым.", "Ошибка чтения", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else
 				MessageBox.Show("Значение ключа должно содержать не менее 40 бит (0 или 1).", "Ошибка ключа", MessageBoxButtons.OK, MessageBoxIcon.Error);
