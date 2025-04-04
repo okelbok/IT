@@ -62,10 +62,11 @@ namespace Lab2_IT
 			return result;
 		}
 
-		public byte[] GetInitialState(string str)
+		public byte[] GetInitialState(TextBox text)
 		{
 			int i = 0;
 			byte[] initialState = new byte[REGISTER_LENGTH];
+   			string str = text.Text;
 
 			foreach (char symbol in str)
 			{
@@ -78,6 +79,8 @@ namespace Lab2_IT
 
 			if (i != REGISTER_LENGTH)
 				initialState = null;
+    			else
+       				text.Text = utils.BitsToString(initialState);
 
 			return initialState;
 		}
@@ -123,7 +126,7 @@ namespace Lab2_IT
 
 		private void EncodeButton_Click(object sender, EventArgs e)
 		{
-			encoder.register = GetInitialState(InitialStateTextBox.Text);
+			encoder.register = GetInitialState(InitialStateTextBox);
 
 			if (encoder.register != null)
 			{
